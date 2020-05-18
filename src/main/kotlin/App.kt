@@ -4,6 +4,7 @@ import pl.karol202.uranium.core.common.*
 import pl.karol202.uranium.core.element.component
 import pl.karol202.uranium.core.render.URenderBuilder
 import pl.karol202.uranium.webcanvas.WC
+import pl.karol202.uranium.webcanvas.WCRenderBuilder
 import pl.karol202.uranium.webcanvas.WCRenderScope
 import pl.karol202.uranium.webcanvas.component.base.WCAbstractComponent
 import pl.karol202.uranium.webcanvas.component.primitives.rectFill
@@ -12,6 +13,7 @@ import pl.karol202.uranium.webcanvas.draw.startOnCanvas
 import pl.karol202.uranium.webcanvas.values.Bounds
 import pl.karol202.uranium.webcanvas.values.Color
 import pl.karol202.uranium.webcanvas.values.Vector
+import screens.game.gameScreen
 import kotlin.browser.document
 
 private val canvas = document.body!!.append.canvas { }
@@ -23,10 +25,9 @@ class App(props: Props) : WCAbstractComponent<App.Props>(props)
     data class Props(override val key: Any,
                      val size: Vector) : UProps
 
-    override fun URenderBuilder<WC>.render()
+    override fun WCRenderBuilder.render()
     {
-        + rectFill(bounds = Bounds(100.0, 100.0, 100.0, 100.0),
-                   color = Color.raw("orange"))
+        + gameScreen(size = props.size)
     }
 }
 
