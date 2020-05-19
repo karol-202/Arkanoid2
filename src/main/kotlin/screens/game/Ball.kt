@@ -1,0 +1,49 @@
+package screens.game
+
+import pl.karol202.uranium.core.render.render
+import pl.karol202.uranium.webcanvas.WCRenderBuilder
+import pl.karol202.uranium.webcanvas.WCRenderScope
+import pl.karol202.uranium.webcanvas.component.physics.WCRigidbody
+import pl.karol202.uranium.webcanvas.component.physics.rigidbody
+import pl.karol202.uranium.webcanvas.component.primitives.circleFill
+import pl.karol202.uranium.webcanvas.physics.Collision
+import pl.karol202.uranium.webcanvas.physics.collider.CircleCollider
+import pl.karol202.uranium.webcanvas.values.Circle
+import pl.karol202.uranium.webcanvas.values.Color
+import pl.karol202.uranium.webcanvas.values.Vector
+import pl.karol202.uranium.webcanvas.values.Vector.Companion
+
+const val BALL_RADIUS = 10.0
+const val BALL_INITIAL_SPEED = 700.0
+
+fun WCRenderScope.ballMovement(ballState: WCRigidbody.State,
+                               onBallStateChange: (WCRigidbody.State) -> Unit,
+                               onDeathEdgeReach: () -> Unit,
+                               content: WCRenderBuilder.() -> Unit) =
+		rigidbody(mass = 1.0,
+		          state = ballState,
+		          onStateChange = onBallStateChange,
+		          collider = CircleCollider(circle = Circle(radius = BALL_RADIUS)),
+		          onCollision = {
+			          onCollision(it, onDeathEdgeReach)
+			          bounce(it.selfNormal, 1.0)
+		          }) {
+			+ content.render()
+		}
+
+private fun onCollision(collision: Collision,
+                        onDeathEdgeReach: () -> Unit) = when(collision.otherCollider.payload)
+{
+	ColliderType.DeathEdge -> onDeathEdgeReach()
+	else -> Unit
+}
+
+fun WCRenderScope.ball() =
+		circleFill(center = Vector.ZERO,
+		           radius = BALL_RADIUS,
+		           fillStyle = Color.raw("white"))
+
+fun createBallState(screenSize: Vector,
+                    paddleX: Double) =
+		WCRigidbody.State(position = Vector(paddleX, screenSize.y - PADDLE_BASELINE_BOTTOM_Y - BALL_RADIUS),
+		                  velocity = Vector.randomDirection() * BALL_INITIAL_SPEED)

@@ -27,7 +27,9 @@ class MouseFollower(props: Props) : WCAbstractComponent<MouseFollower.Props>(pro
 	override fun URenderBuilder<WC>.render()
 	{
 		+ eventHandler(mouseListener = { handleEvent(it) })
-		+ translate(vector = Vector(x = props.currentX)) { + props.content }
+		+ translate(vector = Vector(x = props.currentX)) {
+			+ props.content
+		}
 	}
 
 	private fun handleEvent(event: InputEvent.Mouse) =

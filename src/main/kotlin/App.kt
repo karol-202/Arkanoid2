@@ -2,16 +2,11 @@ import kotlinx.html.dom.append
 import kotlinx.html.js.canvas
 import pl.karol202.uranium.core.common.*
 import pl.karol202.uranium.core.element.component
-import pl.karol202.uranium.core.render.URenderBuilder
-import pl.karol202.uranium.webcanvas.WC
 import pl.karol202.uranium.webcanvas.WCRenderBuilder
 import pl.karol202.uranium.webcanvas.WCRenderScope
 import pl.karol202.uranium.webcanvas.component.base.WCAbstractComponent
-import pl.karol202.uranium.webcanvas.component.primitives.rectFill
 import pl.karol202.uranium.webcanvas.draw.size
 import pl.karol202.uranium.webcanvas.draw.startOnCanvas
-import pl.karol202.uranium.webcanvas.values.Bounds
-import pl.karol202.uranium.webcanvas.values.Color
 import pl.karol202.uranium.webcanvas.values.Vector
 import screens.game.gameScreen
 import kotlin.browser.document
