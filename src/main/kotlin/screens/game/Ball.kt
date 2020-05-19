@@ -22,6 +22,7 @@ const val BALL_INITIAL_ANGLE_MAX = 7.0 / 4.0 * PI
 
 fun WCRenderScope.ballMovement(ballState: WCRigidbody.State,
                                onBallStateChange: (WCRigidbody.State) -> Unit,
+                               onBrickHit: (Int) -> Unit,
                                onDeathEdgeReach: () -> Unit,
                                content: WCRenderBuilder.() -> Unit) =
 		rigidbody(mass = 1.0,
@@ -29,23 +30,25 @@ fun WCRenderScope.ballMovement(ballState: WCRigidbody.State,
 		          onStateChange = onBallStateChange,
 		          collider = CircleCollider(circle = Circle(radius = BALL_RADIUS)),
 		          onCollision = {
-			          onCollision(it, onDeathEdgeReach)
+			          onCollision(it, onBrickHit, onDeathEdgeReach)
 			          bounce(it.selfNormal, 1.0)
 		          }) {
 			+ content.render()
 		}
 
-private fun onCollision(collision: Collision,
-                        onDeathEdgeReach: () -> Unit) = when(collision.otherCollider.payload)
-{
-	ColliderType.DeathEdge -> onDeathEdgeReach()
-	else -> Unit
-}
-
 fun WCRenderScope.ball() =
 		circleFill(center = Vector.ZERO,
 		           radius = BALL_RADIUS,
 		           fillStyle = Color.raw("white"))
+
+private fun onCollision(collision: Collision,
+                        onBrickHit: (Int) -> Unit,
+                        onDeathEdgeReach: () -> Unit) = when(val payload = collision.otherCollider.payload)
+{
+	is ColliderType.Brick -> onBrickHit(payload.id)
+	is ColliderType.DeathEdge -> onDeathEdgeReach()
+	else -> Unit
+}
 
 fun createBallState(screenSize: Vector,
                     paddleX: Double) =

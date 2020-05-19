@@ -28,7 +28,7 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 	data class Props(override val key: Any,
 	                 val size: Vector) : UProps
 
-	override var state by state(GameState.initial(props.size))
+	override var state by state(GameState.initial(props.size, generateBricks()))
 
 	override fun WCRenderBuilder.render()
 	{
@@ -45,6 +45,7 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 			                                        gameState = state,
 			                                        onPaddlePositionChange = ::setPaddleX,
 			                                        onBallStateChange = ::setBallState,
+			                                        onBrickHit = ::hitBrick,
 			                                        onDeath = ::endGame)
 		}
 		+ deathEdgeGradient(width = props.size.x,
@@ -53,20 +54,24 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 
 	private fun setPaddleX(paddleX: Double) = setState { withPaddleX(paddleX) }
 
-	private fun startGame() = setState {
-		if(this is GameState.Prepare) play(ballState = createBallState(props.size, paddleX))
-		else this
+	private fun startGame() = setStateIf<GameState.Prepare> {
+		play(ballState = createBallState(props.size, paddleX))
 	}
 
-	private fun setBallState(ballState: WCRigidbody.State) = setState {
-		if(this is GameState.Play) withBallState(ballState)
-		else this
+	private fun setBallState(ballState: WCRigidbody.State) = setStateIf<GameState.Play> {
+		withBallState(ballState)
 	}
 
-	private fun endGame() = setState {
-		if(this is GameState.Play) prepare()
-		else this
+	private fun hitBrick(brickId: Int) = setStateIf<GameState.Play> {
+		withBrickHit(brickId)
 	}
+
+	private fun endGame() = setStateIf<GameState.Play> {
+		prepare()
+	}
+
+	private inline fun <reified S : GameState> setStateIf(crossinline builder: S.() -> GameState) =
+			setState { if(this is S) builder() else this }
 }
 
 fun WCRenderScope.gameScreen(key: Any = AutoKey,

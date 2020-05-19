@@ -15,9 +15,13 @@ fun WCRenderScope.playStateComponent(size: Vector,
                                      gameState: GameState.Play,
                                      onPaddlePositionChange: (Double) -> Unit,
                                      onBallStateChange: (WCRigidbody.State) -> Unit,
+                                     onBrickHit: (Int) -> Unit,
                                      onDeath: () -> Unit) =
 		collisionDomain {
 			+ screenCollider(size = size)
+			+ gameState.bricks.map {
+				brick(it)
+			}
 			+ paddleMovement(screenSize = size,
 			                 positionX = gameState.paddleX,
 			                 onPositionChange = onPaddlePositionChange) {
@@ -25,6 +29,7 @@ fun WCRenderScope.playStateComponent(size: Vector,
 			}
 			+ ballMovement(ballState = gameState.ballState,
 			               onBallStateChange = onBallStateChange,
+			               onBrickHit = onBrickHit,
 			               onDeathEdgeReach = onDeath) {
 				+ ball()
 			}

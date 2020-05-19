@@ -13,6 +13,9 @@ fun WCRenderScope.prepareStateComponent(size: Vector,
                                         onStart: () -> Unit) =
 		group {
 			+ startTrigger(onStart = onStart)
+			+ gameState.bricks.map {
+				brick(it)
+			}
 			+ paddleMovement(screenSize = size,
 			                 positionX = gameState.paddleX,
 			                 onPositionChange = onPaddlePositionChange) {
