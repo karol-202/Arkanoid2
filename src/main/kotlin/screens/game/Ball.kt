@@ -10,11 +10,15 @@ import pl.karol202.uranium.webcanvas.physics.Collision
 import pl.karol202.uranium.webcanvas.physics.collider.CircleCollider
 import pl.karol202.uranium.webcanvas.values.Circle
 import pl.karol202.uranium.webcanvas.values.Color
+import pl.karol202.uranium.webcanvas.values.PolarVector
 import pl.karol202.uranium.webcanvas.values.Vector
 import pl.karol202.uranium.webcanvas.values.Vector.Companion
+import kotlin.math.PI
 
 const val BALL_RADIUS = 10.0
 const val BALL_INITIAL_SPEED = 700.0
+const val BALL_INITIAL_ANGLE_MIN = 5.0 / 4.0 * PI
+const val BALL_INITIAL_ANGLE_MAX = 7.0 / 4.0 * PI
 
 fun WCRenderScope.ballMovement(ballState: WCRigidbody.State,
                                onBallStateChange: (WCRigidbody.State) -> Unit,
@@ -46,4 +50,7 @@ fun WCRenderScope.ball() =
 fun createBallState(screenSize: Vector,
                     paddleX: Double) =
 		WCRigidbody.State(position = Vector(paddleX, screenSize.y - PADDLE_BASELINE_BOTTOM_Y - BALL_RADIUS),
-		                  velocity = Vector.randomDirection() * BALL_INITIAL_SPEED)
+		                  velocity = createInitialDirection() * BALL_INITIAL_SPEED)
+
+private fun createInitialDirection() = PolarVector.randomDirection(startAngle = BALL_INITIAL_ANGLE_MIN,
+                                                                   endAngle = BALL_INITIAL_ANGLE_MAX).asCartesian

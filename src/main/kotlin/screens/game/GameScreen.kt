@@ -47,6 +47,8 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 			                                        onBallStateChange = ::setBallState,
 			                                        onDeath = ::endGame)
 		}
+		+ deathEdgeGradient(width = props.size.x,
+		                    bottomY = props.size.y)
 	}
 
 	private fun setPaddleX(paddleX: Double) = setState { withPaddleX(paddleX) }
