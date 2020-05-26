@@ -20,7 +20,7 @@ sealed class GameState : UState
 	{
 		override fun withPaddleX(paddleX: Double) = copy(paddleX = paddleX)
 
-		fun withBrickHit(brickId: Int) = copy(bricks = bricks.mapNotNull { if(it.id == brickId) it.hit() else it })
+		fun withBrickHit(brickId: String) = copy(bricks = bricks.mapNotNull { if(it.id == brickId) it.hit() else it })
 
 		fun withBallState(ballState: WCRigidbody.State) = copy(ballState = ballState)
 

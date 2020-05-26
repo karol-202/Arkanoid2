@@ -15,7 +15,7 @@ fun WCRenderScope.playStateComponent(size: Vector,
                                      gameState: GameState.Play,
                                      onPaddlePositionChange: (Double) -> Unit,
                                      onBallStateChange: (WCRigidbody.State) -> Unit,
-                                     onBrickHit: (Int) -> Unit,
+                                     onBrickHit: (String) -> Unit,
                                      onDeath: () -> Unit) =
 		collisionDomain {
 			+ screenCollider(size = size)
@@ -36,7 +36,8 @@ fun WCRenderScope.playStateComponent(size: Vector,
 		}
 
 private fun WCRenderScope.screenCollider(size: Vector) =
-		scale(vector = size) {
+		scale(key = "screen_collider",
+		      vector = size) {
 			val width = SCREEN_COLLIDER_WIDTH
 			+ collider(key = 1, collider = RectCollider(Bounds(-width, -width, width, 1.0 + (width * 2))))
 			+ collider(key = 2, collider = RectCollider(Bounds(1.0, -width, width, 1.0 + (width * 2))))

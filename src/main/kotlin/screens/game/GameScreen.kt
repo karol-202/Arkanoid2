@@ -2,25 +2,13 @@ package screens.game
 
 import pl.karol202.uranium.core.common.*
 import pl.karol202.uranium.core.element.component
-import pl.karol202.uranium.core.render.render
 import pl.karol202.uranium.webcanvas.WCRenderBuilder
 import pl.karol202.uranium.webcanvas.WCRenderScope
 import pl.karol202.uranium.webcanvas.component.base.WCAbstractComponent
-import pl.karol202.uranium.webcanvas.component.containers.group
-import pl.karol202.uranium.webcanvas.component.containers.scale
-import pl.karol202.uranium.webcanvas.component.containers.translate
-import pl.karol202.uranium.webcanvas.component.event.eventHandler
 import pl.karol202.uranium.webcanvas.component.physics.WCRigidbody
-import pl.karol202.uranium.webcanvas.component.physics.collider.collider
-import pl.karol202.uranium.webcanvas.component.physics.collider.collisionDomain
-import pl.karol202.uranium.webcanvas.component.physics.rigidbody
 import pl.karol202.uranium.webcanvas.component.primitives.canvasFill
-import pl.karol202.uranium.webcanvas.component.primitives.circleFill
-import pl.karol202.uranium.webcanvas.component.primitives.rectFill
-import pl.karol202.uranium.webcanvas.physics.Collision
-import pl.karol202.uranium.webcanvas.physics.collider.CircleCollider
-import pl.karol202.uranium.webcanvas.physics.collider.RectCollider
-import pl.karol202.uranium.webcanvas.values.*
+import pl.karol202.uranium.webcanvas.values.Color
+import pl.karol202.uranium.webcanvas.values.Vector
 
 class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
                                  UStateful<GameState>
@@ -28,14 +16,13 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 	data class Props(override val key: Any,
 	                 val size: Vector) : UProps
 
-	override var state by state(GameState.initial(props.size, generateBricks()))
+	override var state by state(GameState.initial(props.size, generateBricks(props.size, 6, 20)))
 
 	override fun WCRenderBuilder.render()
 	{
-		val state = state
-
-		+ canvasFill(fillStyle = Color.raw("black"))
-		+ when(state)
+		+ canvasFill(key = "background",
+		             fillStyle = Color.raw("black"))
+		+ when(val state = state)
 		{
 			is GameState.Prepare -> prepareStateComponent(size = props.size,
 			                                              gameState = state,
@@ -48,7 +35,8 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 			                                        onBrickHit = ::hitBrick,
 			                                        onDeath = ::endGame)
 		}
-		+ deathEdgeGradient(width = props.size.x,
+		+ deathEdgeGradient(key = "death_edge",
+		                    width = props.size.x,
 		                    bottomY = props.size.y)
 	}
 
@@ -62,7 +50,7 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 		withBallState(ballState)
 	}
 
-	private fun hitBrick(brickId: Int) = setStateIf<GameState.Play> {
+	private fun hitBrick(brickId: String) = setStateIf<GameState.Play> {
 		withBrickHit(brickId)
 	}
 

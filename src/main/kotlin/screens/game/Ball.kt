@@ -12,7 +12,6 @@ import pl.karol202.uranium.webcanvas.values.Circle
 import pl.karol202.uranium.webcanvas.values.Color
 import pl.karol202.uranium.webcanvas.values.PolarVector
 import pl.karol202.uranium.webcanvas.values.Vector
-import pl.karol202.uranium.webcanvas.values.Vector.Companion
 import kotlin.math.PI
 
 const val BALL_RADIUS = 10.0
@@ -22,7 +21,7 @@ const val BALL_INITIAL_ANGLE_MAX = 7.0 / 4.0 * PI
 
 fun WCRenderScope.ballMovement(ballState: WCRigidbody.State,
                                onBallStateChange: (WCRigidbody.State) -> Unit,
-                               onBrickHit: (Int) -> Unit,
+                               onBrickHit: (String) -> Unit,
                                onDeathEdgeReach: () -> Unit,
                                content: WCRenderBuilder.() -> Unit) =
 		rigidbody(mass = 1.0,
@@ -42,7 +41,7 @@ fun WCRenderScope.ball() =
 		           fillStyle = Color.raw("white"))
 
 private fun onCollision(collision: Collision,
-                        onBrickHit: (Int) -> Unit,
+                        onBrickHit: (String) -> Unit,
                         onDeathEdgeReach: () -> Unit) = when(val payload = collision.otherCollider.payload)
 {
 	is ColliderType.Brick -> onBrickHit(payload.id)
