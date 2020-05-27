@@ -1,8 +1,12 @@
 package screens.game
 
-object ColliderType
+interface ColliderType
 {
-	data class Brick(val id: String)
+	object Paddle : ColliderType
 
-	object DeathEdge
+	data class Brick(val id: String) : ColliderType
+
+	object ScreenEdge : ColliderType
+
+	object DeathEdge : ColliderType
 }

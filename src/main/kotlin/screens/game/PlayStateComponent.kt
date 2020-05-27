@@ -39,8 +39,16 @@ private fun WCRenderScope.screenCollider(size: Vector) =
 		scale(key = "screen_collider",
 		      vector = size) {
 			val width = SCREEN_COLLIDER_WIDTH
-			+ collider(key = 1, collider = RectCollider(Bounds(-width, -width, width, 1.0 + (width * 2))))
-			+ collider(key = 2, collider = RectCollider(Bounds(1.0, -width, width, 1.0 + (width * 2))))
-			+ collider(key = 3, collider = RectCollider(Bounds(0.0, -width, 1.0, width)))
-			+ collider(key = 4, collider = RectCollider(Bounds(0.0, 1.0, 1.0, width), payload = ColliderType.DeathEdge))
+			+ collider(key = 1,
+			           collider = RectCollider(Bounds(-width, -width, width, 1.0 + (width * 2)),
+			                                   payload = ColliderType.ScreenEdge))
+			+ collider(key = 2,
+			           collider = RectCollider(Bounds(1.0, -width, width, 1.0 + (width * 2)),
+			                                   payload = ColliderType.ScreenEdge))
+			+ collider(key = 3,
+			           collider = RectCollider(Bounds(0.0, -width, 1.0, width),
+			                                   payload = ColliderType.ScreenEdge))
+			+ collider(key = 4,
+			           collider = RectCollider(Bounds(0.0, 1.0, 1.0, width),
+			                                   payload = ColliderType.DeathEdge))
 		}

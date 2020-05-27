@@ -21,7 +21,7 @@ fun WCRenderScope.paddleMovement(screenSize: Vector,
                                  content: WCRenderBuilder.() -> Unit) =
 		translate(vector = Vector(y = screenSize.y - PADDLE_BASELINE_BOTTOM_Y)) {
 			+ mouseFollower(currentX = positionX,
-			              onMove = onPositionChange) {
+			                onMove = onPositionChange) {
 				+ content.render()
 			}
 		}
@@ -29,7 +29,8 @@ fun WCRenderScope.paddleMovement(screenSize: Vector,
 fun WCRenderScope.paddle() =
 		group {
 			val bounds = Bounds(start = Vector(x = -PADDLE_SIZE.x / 2), size = PADDLE_SIZE)
-			+ collider(collider = RectCollider(bounds))
+			+ collider(collider = RectCollider(bounds = bounds,
+			                                   payload = ColliderType.Paddle))
 			+ rectFill(bounds = bounds,
 			           fillStyle = Color.raw("white"))
 		}
