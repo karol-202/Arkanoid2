@@ -8,8 +8,6 @@ import pl.karol202.uranium.webcanvas.component.base.WCAbstractComponent
 import pl.karol202.uranium.webcanvas.component.containers.translate
 import pl.karol202.uranium.webcanvas.component.physics.WCRigidbody
 import pl.karol202.uranium.webcanvas.component.primitives.canvasFill
-import pl.karol202.uranium.webcanvas.component.primitives.rectFill
-import pl.karol202.uranium.webcanvas.values.Bounds
 import pl.karol202.uranium.webcanvas.values.Color
 import pl.karol202.uranium.webcanvas.values.Vector
 
@@ -24,8 +22,7 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 	private val gameViewSize get() = props.size - Vector(y = TOP_BAR_HEIGHT)
 
 	private fun createInitialState() = GameState.initial(size = gameViewSize,
-	                                                     bricks = generateBricks(props.size, 6, 20),
-	                                                     playerHp = 3)
+	                                                     level = Level.Level3)
 
 	override fun WCRenderBuilder.render()
 	{
@@ -44,6 +41,9 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 				                                        onBallStateChange = ::setBallState,
 				                                        onBrickHit = ::hitBrick,
 				                                        onDeath = ::decreasePlayerHp)
+				is GameState.Win -> winComponent(size = gameViewSize,
+				                                 gameState = state,
+				                                 onStartAgain = ::startAgain)
 				is GameState.GameOver -> gameOverComponent(size = gameViewSize,
 				                                           gameState = state,
 				                                           onTryAgain = ::tryAgain)
@@ -71,7 +71,11 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 	}
 
 	private fun decreasePlayerHp() = setStateIf<GameState.Play> {
-		withPlayerHpDecremented()?.prepare() ?: gameOver()
+		withPlayerHpDecremented()
+	}
+
+	private fun startAgain() = setStateIf<GameState.Win> {
+		createInitialState()
 	}
 
 	private fun tryAgain() = setStateIf<GameState.GameOver> {
