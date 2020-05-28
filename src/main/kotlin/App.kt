@@ -9,21 +9,40 @@ import pl.karol202.uranium.webcanvas.draw.size
 import pl.karol202.uranium.webcanvas.draw.startOnCanvas
 import pl.karol202.uranium.webcanvas.values.Vector
 import screens.game.gameScreen
+import screens.menu.menuScreen
 import kotlin.browser.document
 
 private val canvas = document.body!!.append.canvas { }
 
 fun main() = startOnCanvas(canvas, renderInterval = 20, physicsInterval = 20) { app(size = canvas.size) }
 
-class App(props: Props) : WCAbstractComponent<App.Props>(props)
+class App(props: Props) : WCAbstractComponent<App.Props>(props),
+                          UStateful<App.State>
 {
     data class Props(override val key: Any,
                      val size: Vector) : UProps
 
+    data class State(val screen: Screen = Screen.MENU) : UState
+    {
+        enum class Screen
+        {
+            MENU, GAME
+        }
+    }
+
+    override var state by state(State())
+
     override fun WCRenderBuilder.render()
     {
-        + gameScreen(size = props.size)
+        + when(state.screen)
+        {
+            State.Screen.MENU -> menuScreen(size = props.size,
+                                            onGameStart = ::startGame)
+            State.Screen.GAME -> gameScreen(size = props.size)
+        }
     }
+
+    private fun startGame() = setState { copy(screen = State.Screen.GAME) }
 }
 
 fun WCRenderScope.app(key: Any = AutoKey,
