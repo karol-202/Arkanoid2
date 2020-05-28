@@ -22,7 +22,7 @@ class App(props: Props) : WCAbstractComponent<App.Props>(props),
     data class Props(override val key: Any,
                      val size: Vector) : UProps
 
-    data class State(val screen: Screen = Screen.GAME) : UState
+    data class State(val screen: Screen = Screen.MENU) : UState
     {
         enum class Screen
         {

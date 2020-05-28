@@ -88,9 +88,13 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 		createInitialGameState()
 	}
 
-	private fun togglePause() = setState { copy(pause = !pause) }
+	private fun togglePause()
+	{
+		if(!state.gameState.isGameEnded) setState { copy(pause = !pause) }
+	}
 
-	private fun disablePause() = setState { copy(pause = false) }
+	private fun disablePause() =
+			setState { copy(pause = false) }
 
 	private inline fun <reified S : GameState> setGameStateIf(crossinline builder: S.() -> GameState) =
 			setState { if(!pause && gameState is S) copy(gameState = gameState.builder()) else this }
