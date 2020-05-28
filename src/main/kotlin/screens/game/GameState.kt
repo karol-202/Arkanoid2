@@ -1,10 +1,9 @@
 package screens.game
 
-import pl.karol202.uranium.core.common.UState
 import pl.karol202.uranium.webcanvas.component.physics.WCRigidbody
 import pl.karol202.uranium.webcanvas.values.Vector
 
-sealed class GameState : UState
+sealed class GameState
 {
 	data class Prepare(override val screenSize: Vector,
 	                   override val level: Level,

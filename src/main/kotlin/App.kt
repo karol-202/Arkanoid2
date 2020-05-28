@@ -22,7 +22,7 @@ class App(props: Props) : WCAbstractComponent<App.Props>(props),
     data class Props(override val key: Any,
                      val size: Vector) : UProps
 
-    data class State(val screen: Screen = Screen.MENU) : UState
+    data class State(val screen: Screen = Screen.GAME) : UState
     {
         enum class Screen
         {
@@ -38,11 +38,14 @@ class App(props: Props) : WCAbstractComponent<App.Props>(props),
         {
             State.Screen.MENU -> menuScreen(size = props.size,
                                             onGameStart = ::startGame)
-            State.Screen.GAME -> gameScreen(size = props.size)
+            State.Screen.GAME -> gameScreen(size = props.size,
+                                            onQuit = ::quitGame)
         }
     }
 
     private fun startGame() = setState { copy(screen = State.Screen.GAME) }
+
+    private fun quitGame() = setState { copy(screen = State.Screen.MENU) }
 }
 
 fun WCRenderScope.app(key: Any = AutoKey,

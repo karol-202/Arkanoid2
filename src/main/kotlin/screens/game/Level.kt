@@ -14,7 +14,7 @@ sealed class Level
 
 		override val name = "Poziom 1"
 		override val nextLevel = Level2
-		override val initialHp = 2
+		override val initialHp = 3
 
 		override fun generateBricks(screenSize: Vector) = generateBricksGrid(screenSize = screenSize,
 		                                                                     widthHeightRatio = BRICK_WIDTH_HEIGHT_RATIO,

@@ -27,11 +27,9 @@ fun WCRenderScope.prepareStateComponent(size: Vector,
 		}
 
 private fun WCRenderScope.startTrigger(onStart: () -> Unit) =
-		eventHandler(allListener = { handleEvent(it, onStart) })
+		eventHandler(mouseListener = { handleEvent(it, onStart) })
 
-private fun handleEvent(event: InputEvent, onStart: () -> Unit) = when
+private fun handleEvent(event: InputEvent.Mouse, onStart: () -> Unit)
 {
-	event is InputEvent.Key -> onStart()
-	event is InputEvent.Mouse && event.type == InputEvent.Mouse.Type.UP -> onStart()
-	else -> Unit
+	if(event.type == InputEvent.Mouse.Type.UP) onStart()
 }
