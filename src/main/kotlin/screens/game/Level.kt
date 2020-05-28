@@ -12,6 +12,7 @@ sealed class Level
 	{
 		private const val BRICK_WIDTH_HEIGHT_RATIO = 3.0
 
+		override val name = "Poziom 1"
 		override val nextLevel = Level2
 		override val initialHp = 2
 
@@ -31,7 +32,8 @@ sealed class Level
 	{
 		private const val BRICK_WIDTH_HEIGHT_RATIO = 2.0
 
-		override val nextLevel = WinLevel
+		override val name = "Poziom 2"
+		override val nextLevel = Level3
 		override val initialHp = 3
 
 		override fun generateBricks(screenSize: Vector) = generateBricksGrid(screenSize = screenSize,
@@ -51,6 +53,7 @@ sealed class Level
 	{
 		private const val BRICK_WIDTH_HEIGHT_RATIO = 2.0
 
+		override val name = "Poziom 3"
 		override val nextLevel = WinLevel
 		override val initialHp = 3
 		override val isVerticallyInverted = true
@@ -76,6 +79,7 @@ sealed class Level
 
 	object WinLevel : Level()
 	{
+		override val name = ""
 		override val nextLevel = this
 		override val initialHp: Int? = null
 
@@ -84,6 +88,7 @@ sealed class Level
 		override fun isCompleted(bricks: List<Brick>) = false
 	}
 
+	abstract val name: String
 	abstract val nextLevel: Level
 	abstract val initialHp: Int?
 	open val isVerticallyInverted = false

@@ -5,11 +5,15 @@ import pl.karol202.uranium.core.element.component
 import pl.karol202.uranium.webcanvas.WCRenderBuilder
 import pl.karol202.uranium.webcanvas.WCRenderScope
 import pl.karol202.uranium.webcanvas.component.base.WCAbstractComponent
+import pl.karol202.uranium.webcanvas.component.containers.flip
 import pl.karol202.uranium.webcanvas.component.containers.translate
 import pl.karol202.uranium.webcanvas.component.physics.WCRigidbody
 import pl.karol202.uranium.webcanvas.component.primitives.canvasFill
+import pl.karol202.uranium.webcanvas.values.Bounds
 import pl.karol202.uranium.webcanvas.values.Color
 import pl.karol202.uranium.webcanvas.values.Vector
+
+const val TOP_BAR_HEIGHT = 40.0
 
 class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
                                  UStateful<GameState>
@@ -22,38 +26,25 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 	private val gameViewSize get() = props.size - Vector(y = TOP_BAR_HEIGHT)
 
 	private fun createInitialState() = GameState.initial(size = gameViewSize,
-	                                                     level = Level.Level3)
+	                                                     level = Level.Level1)
 
 	override fun WCRenderBuilder.render()
 	{
-		+ canvasFill(key = "background",
-		             fillStyle = Color.raw("black"))
+		+ canvasFill(fillStyle = Color.raw("black"))
 		+ translate(vector = Vector(y = TOP_BAR_HEIGHT)) {
-			+ when(val state = state)
-			{
-				is GameState.Prepare -> prepareStateComponent(size = gameViewSize,
-				                                              gameState = state,
-				                                              onPaddlePositionChange = ::setPaddleX,
-				                                              onStart = ::startGame)
-				is GameState.Play -> playStateComponent(size = gameViewSize,
-				                                        gameState = state,
-				                                        onPaddlePositionChange = ::setPaddleX,
-				                                        onBallStateChange = ::setBallState,
-				                                        onBrickHit = ::hitBrick,
-				                                        onDeath = ::decreasePlayerHp)
-				is GameState.Win -> winComponent(size = gameViewSize,
-				                                 gameState = state,
-				                                 onStartAgain = ::startAgain)
-				is GameState.GameOver -> gameOverComponent(size = gameViewSize,
-				                                           gameState = state,
-				                                           onTryAgain = ::tryAgain)
-			}
+			+ gameView(size = gameViewSize,
+			           state = state,
+			           onPaddlePositionChange = ::setPaddleX,
+					   onBallStateChange = ::setBallState,
+					   onBrickHit = ::hitBrick,
+					   onDeath = ::decreasePlayerHp,
+					   onStart = ::startGame,
+					   onStartAgain = ::startAgain,
+					   onTryAgain = ::tryAgain)
 		}
-		+ topBar(screenSize = props.size,
+		+ topBar(key = "topbar",
+		         bounds = Bounds(size = Vector(x = props.size.x, y = TOP_BAR_HEIGHT)),
 		         gameState = state)
-		+ deathEdgeGradient(key = "death_edge",
-		                    width = props.size.x,
-		                    bottomY = props.size.y)
 	}
 
 	private fun setPaddleX(paddleX: Double) = setState { withPaddleX(paddleX) }
