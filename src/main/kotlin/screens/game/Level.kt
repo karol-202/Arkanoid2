@@ -1,5 +1,6 @@
 package screens.game
 
+import pl.karol202.uranium.webcanvas.assets.loadImage
 import pl.karol202.uranium.webcanvas.physics.collider.Collider
 import pl.karol202.uranium.webcanvas.physics.collider.RectCollider
 import pl.karol202.uranium.webcanvas.values.Bounds
@@ -23,7 +24,7 @@ sealed class Level
 			Brick(id = id,
 			      collider = collider,
 			      bounds = bounds,
-			      hpColorMap = mapOf(1 to Color.hsl(88, 0.92, 0.41)),
+			      hpImageMap = mapOf(1 to loadImage("brick_green.png")),
 			      hp = 1)
 		}
 	}
@@ -43,8 +44,8 @@ sealed class Level
 			Brick(id = id,
 			      collider = collider,
 			      bounds = bounds,
-			      hpColorMap = mapOf(1 to Color.hsl(88, 0.92, 0.41),
-			                         2 to Color.hsl(63, 0.96, 0.5)),
+			      hpImageMap = mapOf(1 to loadImage("brick_green.png"),
+			                         2 to loadImage("brick_yellow.png")),
 			      hp = if(y == 1) 2 else 1)
 		}
 	}
@@ -65,9 +66,9 @@ sealed class Level
 			Brick(id = id,
 			      collider = collider,
 			      bounds = bounds,
-			      hpColorMap = mapOf(1 to Color.hsl(88, 0.92, 0.41),
-			                         2 to Color.hsl(63, 0.96, 0.5),
-			                         3 to Color.hsl(4, 0.96, 0.5)),
+			      hpImageMap = mapOf(1 to loadImage("brick_green.png"),
+			                         2 to loadImage("brick_yellow.png"),
+			                         3 to loadImage("brick_red.png")),
 			      hp = when(y)
 			      {
 				      0 -> 2

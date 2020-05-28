@@ -2,6 +2,7 @@ package screens.game
 
 import pl.karol202.uranium.core.common.AutoKey
 import pl.karol202.uranium.webcanvas.WCRenderScope
+import pl.karol202.uranium.webcanvas.component.containers.flip
 import pl.karol202.uranium.webcanvas.component.containers.group
 import pl.karol202.uranium.webcanvas.component.primitives.TextAlign
 import pl.karol202.uranium.webcanvas.component.primitives.textFill
@@ -26,11 +27,15 @@ fun WCRenderScope.gameOverComponent(key: Any = AutoKey,
 				+ paddle()
 			}
 
-			+ menuBackground(size = size)
-			+ menuCenter(key = "menu_center",
-			             size = size) {
-				+ gameOverText(key = "game_over")
-				+ menuButtons(buttons = listOf("Jeszcze raz" to onTryAgain))
+			+ flip(key = "menu",
+			       size = size,
+			       vertical = gameState.level.isVerticallyInverted /* To compensate previous flip */) {
+				+ menuBackground(size = size)
+				+ menuCenter(key = "menu_center",
+				             size = size) {
+					+ gameOverText(key = "game_over")
+					+ menuButtons(buttons = listOf("Jeszcze raz" to onTryAgain))
+				}
 			}
 		}
 
