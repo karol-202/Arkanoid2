@@ -1,22 +1,22 @@
 package screens.game
 
+import pl.karol202.uranium.arkade.htmlcanvas.ArkadeRenderBuilder
+import pl.karol202.uranium.arkade.htmlcanvas.ArkadeRenderScope
+import pl.karol202.uranium.arkade.htmlcanvas.component.base.ArkadeAbstractComponent
 import pl.karol202.uranium.core.common.*
 import pl.karol202.uranium.core.element.component
-import pl.karol202.uranium.webcanvas.WCRenderBuilder
-import pl.karol202.uranium.webcanvas.WCRenderScope
-import pl.karol202.uranium.webcanvas.component.base.WCAbstractComponent
-import pl.karol202.uranium.webcanvas.component.containers.translate
-import pl.karol202.uranium.webcanvas.component.event.eventHandler
-import pl.karol202.uranium.webcanvas.component.physics.WCRigidbody
-import pl.karol202.uranium.webcanvas.component.primitives.canvasFill
-import pl.karol202.uranium.webcanvas.values.Bounds
-import pl.karol202.uranium.webcanvas.values.Color
-import pl.karol202.uranium.webcanvas.values.InputEvent
-import pl.karol202.uranium.webcanvas.values.Vector
+import pl.karol202.uranium.arkade.htmlcanvas.component.containers.translate
+import pl.karol202.uranium.arkade.htmlcanvas.component.event.eventHandler
+import pl.karol202.uranium.arkade.htmlcanvas.component.physics.Rigidbody
+import pl.karol202.uranium.arkade.htmlcanvas.component.primitives.viewportFill
+import pl.karol202.uranium.arkade.htmlcanvas.values.Bounds
+import pl.karol202.uranium.arkade.htmlcanvas.values.Color
+import pl.karol202.uranium.arkade.htmlcanvas.values.InputEvent
+import pl.karol202.uranium.arkade.htmlcanvas.values.Vector
 
 const val TOP_BAR_HEIGHT = 40.0
 
-class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
+class GameScreen(props: Props) : ArkadeAbstractComponent<GameScreen.Props>(props),
                                  UStateful<GameScreen.State>
 {
 	data class Props(override val key: Any,
@@ -34,9 +34,9 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 	private fun createInitialGameState() = GameState.initial(size = gameViewSize,
 	                                                         level = Level.Level1)
 
-	override fun WCRenderBuilder.render()
+	override fun ArkadeRenderBuilder.render()
 	{
-		+ canvasFill(fillStyle = Color.raw("black"))
+		+ viewportFill(fillStyle = Color.raw("black"))
 		+ translate(vector = Vector(y = TOP_BAR_HEIGHT)) {
 			+ gameView(size = gameViewSize,
 			           state = state.gameState,
@@ -57,7 +57,7 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 		+ pauseTrigger(onPauseToggle = ::togglePause)
 	}
 
-	private fun WCRenderScope.pauseTrigger(key: Any = AutoKey,
+	private fun ArkadeRenderScope.pauseTrigger(key: Any = AutoKey,
 	                                       onPauseToggle: () -> Unit) =
 			eventHandler(key = key,
 			             keyListener = { if(it.type == InputEvent.Key.Type.UP && it.key == "Escape") onPauseToggle() })
@@ -68,7 +68,7 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 		play(ballState = createBallState(gameViewSize, paddleX))
 	}
 
-	private fun setBallState(ballState: WCRigidbody.State) = setGameStateIf<GameState.Play> {
+	private fun setBallState(ballState: Rigidbody.State) = setGameStateIf<GameState.Play> {
 		withBallState(ballState)
 	}
 
@@ -103,6 +103,6 @@ class GameScreen(props: Props) : WCAbstractComponent<GameScreen.Props>(props),
 			setState { if(!pause) copy(gameState = gameState.builder()) else this }
 }
 
-fun WCRenderScope.gameScreen(key: Any = AutoKey,
+fun ArkadeRenderScope.gameScreen(key: Any = AutoKey,
                              size: Vector,
                              onQuit: () -> Unit) = component(::GameScreen, GameScreen.Props(key, size, onQuit))

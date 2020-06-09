@@ -1,22 +1,16 @@
-import kotlinx.html.dom.append
-import kotlinx.html.js.canvas
+import pl.karol202.uranium.arkade.htmlcanvas.ArkadeRenderBuilder
+import pl.karol202.uranium.arkade.htmlcanvas.ArkadeRenderScope
+import pl.karol202.uranium.arkade.htmlcanvas.component.base.ArkadeAbstractComponent
+import pl.karol202.uranium.arkade.htmlcanvas.startOnCanvas
+import pl.karol202.uranium.arkade.htmlcanvas.values.Vector
 import pl.karol202.uranium.core.common.*
 import pl.karol202.uranium.core.element.component
-import pl.karol202.uranium.webcanvas.WCRenderBuilder
-import pl.karol202.uranium.webcanvas.WCRenderScope
-import pl.karol202.uranium.webcanvas.component.base.WCAbstractComponent
-import pl.karol202.uranium.webcanvas.draw.size
-import pl.karol202.uranium.webcanvas.draw.startOnCanvas
-import pl.karol202.uranium.webcanvas.values.Vector
 import screens.game.gameScreen
 import screens.menu.menuScreen
-import kotlin.browser.document
 
-private val canvas = document.body!!.append.canvas { }
+fun main() = startOnCanvas("canvas", renderInterval = 20, physicsInterval = 20) { size -> app(size = size) }
 
-fun main() = startOnCanvas(canvas, renderInterval = 20, physicsInterval = 20) { app(size = canvas.size) }
-
-class App(props: Props) : WCAbstractComponent<App.Props>(props),
+class App(props: Props) : ArkadeAbstractComponent<App.Props>(props),
                           UStateful<App.State>
 {
     data class Props(override val key: Any,
@@ -32,7 +26,7 @@ class App(props: Props) : WCAbstractComponent<App.Props>(props),
 
     override var state by state(State())
 
-    override fun WCRenderBuilder.render()
+    override fun ArkadeRenderBuilder.render()
     {
         + when(state.screen)
         {
@@ -48,5 +42,5 @@ class App(props: Props) : WCAbstractComponent<App.Props>(props),
     private fun quitGame() = setState { copy(screen = State.Screen.MENU) }
 }
 
-fun WCRenderScope.app(key: Any = AutoKey,
-                      size: Vector) = component(::App, App.Props(key, size))
+fun ArkadeRenderScope.app(key: Any = AutoKey,
+                          size: Vector) = component(::App, App.Props(key, size))

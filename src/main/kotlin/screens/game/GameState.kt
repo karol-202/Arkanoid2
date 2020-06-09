@@ -1,7 +1,7 @@
 package screens.game
 
-import pl.karol202.uranium.webcanvas.component.physics.WCRigidbody
-import pl.karol202.uranium.webcanvas.values.Vector
+import pl.karol202.uranium.arkade.htmlcanvas.component.physics.Rigidbody
+import pl.karol202.uranium.arkade.htmlcanvas.values.Vector
 
 sealed class GameState
 {
@@ -15,7 +15,7 @@ sealed class GameState
 
 		override fun withPaddleX(paddleX: Double) = copy(paddleX = paddleX)
 
-		fun play(ballState: WCRigidbody.State) = Play(screenSize, level, paddleX, bricks, playerHp, ballState)
+		fun play(ballState: Rigidbody.State) = Play(screenSize, level, paddleX, bricks, playerHp, ballState)
 	}
 
 	data class Play(override val screenSize: Vector,
@@ -23,7 +23,7 @@ sealed class GameState
 	                override val paddleX: Double,
 	                override val bricks: List<Brick>,
 	                override val playerHp: Int,
-	                val ballState: WCRigidbody.State) : GameState()
+	                val ballState: Rigidbody.State) : GameState()
 	{
 		override val isGameEnded get() = false
 
@@ -40,7 +40,7 @@ sealed class GameState
 
 		fun withPlayerHpDecremented() = if(playerHp > 1) copy(playerHp = playerHp - 1).prepare() else gameOver()
 
-		fun withBallState(ballState: WCRigidbody.State) = copy(ballState = ballState)
+		fun withBallState(ballState: Rigidbody.State) = copy(ballState = ballState)
 
 		private fun withNextLevel(): GameState
 		{

@@ -9,8 +9,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-js"))
-    implementation("pl.karol202.uranium:web-canvas:0.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.1")
+    implementation("pl.karol202.uranium:uranium-arkade-htmlcanvas-js:0.2")
 }
 
 kotlin.target.browser { }

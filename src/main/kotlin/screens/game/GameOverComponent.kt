@@ -1,22 +1,22 @@
 package screens.game
 
+import pl.karol202.uranium.arkade.htmlcanvas.ArkadeRenderScope
 import pl.karol202.uranium.core.common.AutoKey
-import pl.karol202.uranium.webcanvas.WCRenderScope
-import pl.karol202.uranium.webcanvas.component.containers.flip
-import pl.karol202.uranium.webcanvas.component.containers.group
-import pl.karol202.uranium.webcanvas.component.primitives.TextAlign
-import pl.karol202.uranium.webcanvas.component.primitives.textFill
-import pl.karol202.uranium.webcanvas.values.Color
-import pl.karol202.uranium.webcanvas.values.Font
-import pl.karol202.uranium.webcanvas.values.Vector
+import pl.karol202.uranium.arkade.htmlcanvas.component.containers.flip
+import pl.karol202.uranium.arkade.htmlcanvas.component.containers.group
+import pl.karol202.uranium.arkade.htmlcanvas.component.primitives.textFill
+import pl.karol202.uranium.arkade.htmlcanvas.values.Color
+import pl.karol202.uranium.arkade.htmlcanvas.values.Font
+import pl.karol202.uranium.arkade.htmlcanvas.values.TextAlign
+import pl.karol202.uranium.arkade.htmlcanvas.values.Vector
 import ui.menuBackground
 import ui.menuButtons
 import ui.menuCenter
 
-fun WCRenderScope.gameOverComponent(key: Any = AutoKey,
-                                    size: Vector,
-                                    gameState: GameState.GameOver,
-                                    onTryAgain: () -> Unit) =
+fun ArkadeRenderScope.gameOverComponent(key: Any = AutoKey,
+                                        size: Vector,
+                                        gameState: GameState.GameOver,
+                                        onTryAgain: () -> Unit) =
 		group(key = key) {
 			+ gameState.bricks.map {
 				brick(it)
@@ -39,7 +39,7 @@ fun WCRenderScope.gameOverComponent(key: Any = AutoKey,
 			}
 		}
 
-private fun WCRenderScope.gameOverText(key: Any = AutoKey) =
+private fun ArkadeRenderScope.gameOverText(key: Any = AutoKey) =
 		textFill(key = key,
 		         position = Vector(y = -100.0),
 		         text = "Game over!",

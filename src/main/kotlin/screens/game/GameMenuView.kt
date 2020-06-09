@@ -1,21 +1,20 @@
 package screens.game
 
+import pl.karol202.uranium.arkade.htmlcanvas.ArkadeRenderScope
 import pl.karol202.uranium.core.common.AutoKey
-import pl.karol202.uranium.webcanvas.WCRenderBuilder
-import pl.karol202.uranium.webcanvas.WCRenderScope
-import pl.karol202.uranium.webcanvas.component.containers.group
-import pl.karol202.uranium.webcanvas.component.containers.translate
-import pl.karol202.uranium.webcanvas.values.Vector
+import pl.karol202.uranium.arkade.htmlcanvas.component.containers.group
+import pl.karol202.uranium.arkade.htmlcanvas.component.containers.translate
+import pl.karol202.uranium.arkade.htmlcanvas.values.Vector
 import ui.menuBackground
 import ui.menuButtons
 import ui.menuCenter
 
 private const val MENU_CONTENT_OFFSET_Y = -100.0
 
-fun WCRenderScope.gameMenuView(key: Any = AutoKey,
-                               size: Vector,
-                               onBackToGame: () -> Unit,
-                               onQuit: () -> Unit) =
+fun ArkadeRenderScope.gameMenuView(key: Any = AutoKey,
+                                   size: Vector,
+                                   onBackToGame: () -> Unit,
+                                   onQuit: () -> Unit) =
 		group(key = key) {
 			+ menuBackground(size = size)
 			+ menuCenter(size = size) {

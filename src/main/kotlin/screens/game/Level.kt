@@ -1,11 +1,10 @@
 package screens.game
 
-import pl.karol202.uranium.webcanvas.assets.loadImage
-import pl.karol202.uranium.webcanvas.physics.collider.Collider
-import pl.karol202.uranium.webcanvas.physics.collider.RectCollider
-import pl.karol202.uranium.webcanvas.values.Bounds
-import pl.karol202.uranium.webcanvas.values.Color
-import pl.karol202.uranium.webcanvas.values.Vector
+import pl.karol202.uranium.arkade.htmlcanvas.assets.Image
+import pl.karol202.uranium.arkade.htmlcanvas.physics.collider.Collider
+import pl.karol202.uranium.arkade.htmlcanvas.physics.collider.RectCollider
+import pl.karol202.uranium.arkade.htmlcanvas.values.Bounds
+import pl.karol202.uranium.arkade.htmlcanvas.values.Vector
 
 sealed class Level
 {
@@ -24,7 +23,7 @@ sealed class Level
 			Brick(id = id,
 			      collider = collider,
 			      bounds = bounds,
-			      hpImageMap = mapOf(1 to loadImage("brick_green.png")),
+			      hpImageMap = mapOf(1 to Image.load("brick_green.png")),
 			      hp = 1)
 		}
 	}
@@ -44,8 +43,8 @@ sealed class Level
 			Brick(id = id,
 			      collider = collider,
 			      bounds = bounds,
-			      hpImageMap = mapOf(1 to loadImage("brick_green.png"),
-			                         2 to loadImage("brick_yellow.png")),
+			      hpImageMap = mapOf(1 to Image.load("brick_green.png"),
+			                         2 to Image.load("brick_yellow.png")),
 			      hp = if(y == 1) 2 else 1)
 		}
 	}
@@ -66,9 +65,9 @@ sealed class Level
 			Brick(id = id,
 			      collider = collider,
 			      bounds = bounds,
-			      hpImageMap = mapOf(1 to loadImage("brick_green.png"),
-			                         2 to loadImage("brick_yellow.png"),
-			                         3 to loadImage("brick_red.png")),
+			      hpImageMap = mapOf(1 to Image.load("brick_green.png"),
+			                         2 to Image.load("brick_yellow.png"),
+			                         3 to Image.load("brick_red.png")),
 			      hp = when(y)
 			      {
 				      0 -> 2

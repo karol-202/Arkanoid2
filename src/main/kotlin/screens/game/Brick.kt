@@ -1,20 +1,18 @@
 package screens.game
 
-import org.w3c.dom.Image
-import pl.karol202.uranium.webcanvas.WCRenderScope
-import pl.karol202.uranium.webcanvas.component.containers.group
-import pl.karol202.uranium.webcanvas.component.physics.collider.collider
-import pl.karol202.uranium.webcanvas.component.primitives.image
-import pl.karol202.uranium.webcanvas.component.primitives.rectFill
-import pl.karol202.uranium.webcanvas.physics.collider.Collider
-import pl.karol202.uranium.webcanvas.values.Bounds
-import pl.karol202.uranium.webcanvas.values.Color
+import pl.karol202.uranium.arkade.htmlcanvas.ArkadeRenderScope
+import pl.karol202.uranium.arkade.htmlcanvas.assets.Image
+import pl.karol202.uranium.arkade.htmlcanvas.component.containers.group
+import pl.karol202.uranium.arkade.htmlcanvas.component.physics.collider.colliderProvider
+import pl.karol202.uranium.arkade.htmlcanvas.component.primitives.imageDraw
+import pl.karol202.uranium.arkade.htmlcanvas.physics.collider.Collider
+import pl.karol202.uranium.arkade.htmlcanvas.values.Bounds
 
-fun WCRenderScope.brick(brick: Brick) =
+fun ArkadeRenderScope.brick(brick: Brick) =
 		group(key = brick.id) {
-			+ collider(collider = brick.collider)
-			+ image(image = brick.image,
-					drawBounds = brick.bounds)
+			+ colliderProvider(collider = brick.collider)
+			+ imageDraw(image = brick.image,
+			            drawBounds = brick.bounds)
 		}
 
 data class Brick(val id: String,

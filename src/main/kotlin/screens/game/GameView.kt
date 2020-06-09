@@ -1,21 +1,21 @@
 package screens.game
 
+import pl.karol202.uranium.arkade.htmlcanvas.ArkadeRenderScope
 import pl.karol202.uranium.core.common.AutoKey
-import pl.karol202.uranium.webcanvas.WCRenderScope
-import pl.karol202.uranium.webcanvas.component.containers.flip
-import pl.karol202.uranium.webcanvas.component.physics.WCRigidbody
-import pl.karol202.uranium.webcanvas.values.Vector
+import pl.karol202.uranium.arkade.htmlcanvas.component.containers.flip
+import pl.karol202.uranium.arkade.htmlcanvas.component.physics.Rigidbody
+import pl.karol202.uranium.arkade.htmlcanvas.values.Vector
 
-fun WCRenderScope.gameView(key: Any = AutoKey,
-                           size: Vector,
-                           state: GameState,
-                           onPaddlePositionChange: (Double) -> Unit,
-                           onBallStateChange: (WCRigidbody.State) -> Unit,
-                           onBrickHit: (String) -> Unit,
-                           onDeath: () -> Unit,
-                           onStart: () -> Unit,
-                           onStartAgain: () -> Unit,
-                           onTryAgain: () -> Unit) =
+fun ArkadeRenderScope.gameView(key: Any = AutoKey,
+                               size: Vector,
+                               state: GameState,
+                               onPaddlePositionChange: (Double) -> Unit,
+                               onBallStateChange: (Rigidbody.State) -> Unit,
+                               onBrickHit: (String) -> Unit,
+                               onDeath: () -> Unit,
+                               onStart: () -> Unit,
+                               onStartAgain: () -> Unit,
+                               onTryAgain: () -> Unit) =
 		flip(key = key,
 		     size = size,
 		     vertical = state.level.isVerticallyInverted) {
@@ -33,15 +33,15 @@ fun WCRenderScope.gameView(key: Any = AutoKey,
 			            onTryAgain = onTryAgain)
 		}
 
-private fun WCRenderScope.stateView(size: Vector,
-                                    state: GameState,
-                                    onPaddlePositionChange: (Double) -> Unit,
-                                    onBallStateChange: (WCRigidbody.State) -> Unit,
-                                    onBrickHit: (String) -> Unit,
-                                    onDeath: () -> Unit,
-                                    onStart: () -> Unit,
-                                    onStartAgain: () -> Unit,
-                                    onTryAgain: () -> Unit) = when(state)
+private fun ArkadeRenderScope.stateView(size: Vector,
+                                        state: GameState,
+                                        onPaddlePositionChange: (Double) -> Unit,
+                                        onBallStateChange: (Rigidbody.State) -> Unit,
+                                        onBrickHit: (String) -> Unit,
+                                        onDeath: () -> Unit,
+                                        onStart: () -> Unit,
+                                        onStartAgain: () -> Unit,
+                                        onTryAgain: () -> Unit) = when(state)
 {
 	is GameState.Prepare -> prepareStateComponent(size = size,
 	                                              gameState = state,

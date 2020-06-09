@@ -1,22 +1,22 @@
 package screens.game
 
-import pl.karol202.uranium.webcanvas.WCRenderScope
-import pl.karol202.uranium.webcanvas.component.containers.scale
-import pl.karol202.uranium.webcanvas.component.physics.WCRigidbody
-import pl.karol202.uranium.webcanvas.component.physics.collider.collider
-import pl.karol202.uranium.webcanvas.component.physics.collider.collisionDomain
-import pl.karol202.uranium.webcanvas.physics.collider.RectCollider
-import pl.karol202.uranium.webcanvas.values.Bounds
-import pl.karol202.uranium.webcanvas.values.Vector
+import pl.karol202.uranium.arkade.htmlcanvas.ArkadeRenderScope
+import pl.karol202.uranium.arkade.htmlcanvas.component.containers.scale
+import pl.karol202.uranium.arkade.htmlcanvas.component.physics.Rigidbody
+import pl.karol202.uranium.arkade.htmlcanvas.component.physics.collider.colliderProvider
+import pl.karol202.uranium.arkade.htmlcanvas.component.physics.collider.collisionDomain
+import pl.karol202.uranium.arkade.htmlcanvas.physics.collider.RectCollider
+import pl.karol202.uranium.arkade.htmlcanvas.values.Bounds
+import pl.karol202.uranium.arkade.htmlcanvas.values.Vector
 
 private const val SCREEN_COLLIDER_WIDTH = 0.2
 
-fun WCRenderScope.playStateComponent(size: Vector,
-                                     gameState: GameState.Play,
-                                     onPaddlePositionChange: (Double) -> Unit,
-                                     onBallStateChange: (WCRigidbody.State) -> Unit,
-                                     onBrickHit: (String) -> Unit,
-                                     onDeath: () -> Unit) =
+fun ArkadeRenderScope.playStateComponent(size: Vector,
+                                         gameState: GameState.Play,
+                                         onPaddlePositionChange: (Double) -> Unit,
+                                         onBallStateChange: (Rigidbody.State) -> Unit,
+                                         onBrickHit: (String) -> Unit,
+                                         onDeath: () -> Unit) =
 		collisionDomain {
 			+ screenCollider(size = size)
 			+ gameState.bricks.map {
@@ -35,20 +35,20 @@ fun WCRenderScope.playStateComponent(size: Vector,
 			}
 		}
 
-private fun WCRenderScope.screenCollider(size: Vector) =
+private fun ArkadeRenderScope.screenCollider(size: Vector) =
 		scale(key = "screen_collider",
 		      vector = size) {
 			val width = SCREEN_COLLIDER_WIDTH
-			+ collider(key = 1,
-			           collider = RectCollider(Bounds(-width, -width, width, 1.0 + (width * 2)),
+			+ colliderProvider(key = 1,
+			                   collider = RectCollider(Bounds(-width, -width, width, 1.0 + (width * 2)),
 			                                   payload = ColliderType.ScreenEdge))
-			+ collider(key = 2,
-			           collider = RectCollider(Bounds(1.0, -width, width, 1.0 + (width * 2)),
+			+ colliderProvider(key = 2,
+			                   collider = RectCollider(Bounds(1.0, -width, width, 1.0 + (width * 2)),
 			                                   payload = ColliderType.ScreenEdge))
-			+ collider(key = 3,
-			           collider = RectCollider(Bounds(0.0, -width, 1.0, width),
+			+ colliderProvider(key = 3,
+			                   collider = RectCollider(Bounds(0.0, -width, 1.0, width),
 			                                   payload = ColliderType.ScreenEdge))
-			+ collider(key = 4,
-			           collider = RectCollider(Bounds(0.0, 1.0, 1.0, width),
+			+ colliderProvider(key = 4,
+			                   collider = RectCollider(Bounds(0.0, 1.0, 1.0, width),
 			                                   payload = ColliderType.DeathEdge))
 		}

@@ -1,28 +1,26 @@
 package screens.game
 
+import pl.karol202.uranium.arkade.htmlcanvas.ArkadeRenderBuilder
+import pl.karol202.uranium.arkade.htmlcanvas.ArkadeRenderScope
+import pl.karol202.uranium.arkade.htmlcanvas.assets.Image
+import pl.karol202.uranium.arkade.htmlcanvas.component.containers.group
+import pl.karol202.uranium.arkade.htmlcanvas.component.containers.translate
+import pl.karol202.uranium.arkade.htmlcanvas.component.physics.collider.colliderProvider
+import pl.karol202.uranium.arkade.htmlcanvas.component.primitives.imageDraw
+import pl.karol202.uranium.arkade.htmlcanvas.physics.collider.RectCollider
+import pl.karol202.uranium.arkade.htmlcanvas.values.Bounds
+import pl.karol202.uranium.arkade.htmlcanvas.values.Vector
 import pl.karol202.uranium.core.common.AutoKey
 import pl.karol202.uranium.core.render.render
-import pl.karol202.uranium.webcanvas.WCRenderBuilder
-import pl.karol202.uranium.webcanvas.WCRenderScope
-import pl.karol202.uranium.webcanvas.assets.loadImage
-import pl.karol202.uranium.webcanvas.component.containers.group
-import pl.karol202.uranium.webcanvas.component.containers.translate
-import pl.karol202.uranium.webcanvas.component.physics.collider.collider
-import pl.karol202.uranium.webcanvas.component.primitives.image
-import pl.karol202.uranium.webcanvas.component.primitives.rectFill
-import pl.karol202.uranium.webcanvas.physics.collider.RectCollider
-import pl.karol202.uranium.webcanvas.values.Bounds
-import pl.karol202.uranium.webcanvas.values.Color
-import pl.karol202.uranium.webcanvas.values.Vector
 
 val PADDLE_SIZE = Vector(100.0, 20.0)
 const val PADDLE_BASELINE_BOTTOM_Y = 50.0
 
-fun WCRenderScope.paddleMovement(key: Any = AutoKey,
-                                 screenSize: Vector,
-                                 positionX: Double,
-                                 onPositionChange: (Double) -> Unit,
-                                 content: WCRenderBuilder.() -> Unit) =
+fun ArkadeRenderScope.paddleMovement(key: Any = AutoKey,
+                                     screenSize: Vector,
+                                     positionX: Double,
+                                     onPositionChange: (Double) -> Unit,
+                                     content: ArkadeRenderBuilder.() -> Unit) =
 		translate(key = key,
 		          vector = Vector(y = screenSize.y - PADDLE_BASELINE_BOTTOM_Y)) {
 			+ mouseFollower(currentX = positionX,
@@ -31,11 +29,11 @@ fun WCRenderScope.paddleMovement(key: Any = AutoKey,
 			}
 		}
 
-fun WCRenderScope.paddle(key: Any = AutoKey) =
+fun ArkadeRenderScope.paddle(key: Any = AutoKey) =
 		group(key = key) {
 			val bounds = Bounds(start = Vector(x = -PADDLE_SIZE.x / 2), size = PADDLE_SIZE)
-			+ collider(collider = RectCollider(bounds = bounds,
-			                                   payload = ColliderType.Paddle))
-			+ image(image = loadImage("paddle.png"),
-			        drawBounds = bounds)
+			+ colliderProvider(collider = RectCollider(bounds = bounds,
+			                                           payload = ColliderType.Paddle))
+			+ imageDraw(image = Image.load("paddle.png"),
+			            drawBounds = bounds)
 		}
